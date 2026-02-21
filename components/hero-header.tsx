@@ -28,10 +28,13 @@ export function HeroHeader({
         {/* Navigation */}
         <nav className="flex flex-col items-center gap-5 text-center w-full">
           <div className="flex flex-col items-center gap-2">
-            <div className="logo-float flex h-16 w-16 items-center justify-center rounded-full bg-accent shadow-sm sm:h-20 sm:w-20">
-              <span className="font-display text-xl font-bold text-primary sm:text-2xl">
-                BB
-              </span>
+            <div className="logo-float flex h-28 w-28 items-center justify-center rounded-full bg-accent shadow-sm sm:h-36 sm:w-36 overflow-hidden">
+              <img
+                src="/bbtito_logo.png"
+                alt="BBTito Logo"
+                className="h-full w-full object-contain"
+                loading="lazy"
+              />
             </div>
             <p className="font-display text-3xl font-bold tracking-wide text-foreground sm:text-4xl">
               BBTito
