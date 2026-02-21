@@ -36,6 +36,7 @@ export default function RootLayout({
       <head>
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#222222" />
+        <link rel="icon" href="/bbtito_logo.png" type="image/png" />
         <script dangerouslySetInnerHTML={{
           __html: `if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
