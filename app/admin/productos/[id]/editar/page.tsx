@@ -1,13 +1,10 @@
 // Para exportación estática, Next.js requiere esta función
 export async function generateStaticParams() {
-  // Aquí deberías obtener los IDs de productos existentes
-  // Por ejemplo, desde una API o archivo local
-  // Ejemplo con IDs fijos:
-  return [
-    { id: "1" },
-    { id: "2" },
-    { id: "3" }
-  ];
+  // Obtener los IDs reales desde el backend
+  const res = await fetch("https://api.bbtito.com/api/productos/listar_todos");
+  if (!res.ok) return [];
+  const data = await res.json();
+  return (data.items || []).map((producto: { id: number }) => ({ id: String(producto.id) }));
 }
 import { ProductForm } from "@/components/admin/product-form"
 

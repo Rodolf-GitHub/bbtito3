@@ -1,4 +1,4 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"
+const API_BASE = "https://api.bbtito.com"
 
 export const API_ENDPOINTS = {
   listarTodos: `${API_BASE}/api/productos/listar_todos`,
