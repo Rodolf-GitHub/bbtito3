@@ -1,6 +1,142 @@
+@keyframes logoFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+.logo-float {
+  animation: logoFloat 4s ease-in-out infinite;
+}
+.sparkle-rain {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.sparkle-rain::before,
+.sparkle-rain::after {
+  content: '';
+  position: absolute;
+  inset: -30% 0 0 0;
+  background-repeat: no-repeat;
+  animation: sparkleFall 8s linear infinite;
+  will-change: transform;
+}
+.sparkle-rain::before {
+  opacity: 1;
+  mix-blend-mode: screen;
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23ff2d95' stroke='%23000000' stroke-width='1.8' d='M12 2.75l2.72 5.51 6.08.88-4.4 4.29 1.04 6.06L12 16.97 6.56 19.5l1.04-6.06-4.4-4.29 6.08-.88L12 2.75z'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23ff2d95' stroke='%23000000' stroke-width='1.8' d='M12 2.75l2.72 5.51 6.08.88-4.4 4.29 1.04 6.06L12 16.97 6.56 19.5l1.04-6.06-4.4-4.29 6.08-.88L12 2.75z'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23ff2d95' stroke='%23000000' stroke-width='1.8' d='M12 2.75l2.72 5.51 6.08.88-4.4 4.29 1.04 6.06L12 16.97 6.56 19.5l1.04-6.06-4.4-4.29 6.08-.88L12 2.75z'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23ff2d95' stroke='%23000000' stroke-width='1.8' d='M12 2.75l2.72 5.51 6.08.88-4.4 4.29 1.04 6.06L12 16.97 6.56 19.5l1.04-6.06-4.4-4.29 6.08-.88L12 2.75z'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23ff2d95' stroke='%23000000' stroke-width='1.8' d='M12 2.75l2.72 5.51 6.08.88-4.4 4.29 1.04 6.06L12 16.97 6.56 19.5l1.04-6.06-4.4-4.29 6.08-.88L12 2.75z'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23ff2d95' stroke='%23000000' stroke-width='1.8' d='M12 2.75l2.72 5.51 6.08.88-4.4 4.29 1.04 6.06L12 16.97 6.56 19.5l1.04-6.06-4.4-4.29 6.08-.88L12 2.75z'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23ff2d95' stroke='%23000000' stroke-width='1.8' d='M12 2.75l2.72 5.51 6.08.88-4.4 4.29 1.04 6.06L12 16.97 6.56 19.5l1.04-6.06-4.4-4.29 6.08-.88L12 2.75z'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23ff2d95' stroke='%23000000' stroke-width='1.8' d='M12 2.75l2.72 5.51 6.08.88-4.4 4.29 1.04 6.06L12 16.97 6.56 19.5l1.04-6.06-4.4-4.29 6.08-.88L12 2.75z'/></svg>");
+  background-size:
+    20px 20px,
+    18px 18px,
+    22px 22px,
+    20px 20px,
+    18px 18px,
+    22px 22px,
+    20px 20px,
+    18px 18px;
+  background-position:
+    6% 6%,
+    18% 14%,
+    30% 8%,
+    44% 18%,
+    58% 10%,
+    72% 22%,
+    86% 14%,
+    94% 26%;
+  filter: drop-shadow(0 0 2px #000000);
+}
+.sparkle-rain::after {
+  opacity: 1;
+  mix-blend-mode: screen;
+  animation-duration: 11s;
+  animation-delay: -4s;
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23ff2d95' stroke='%23000000' stroke-width='1.6' d='M12 2.75l2.72 5.51 6.08.88-4.4 4.29 1.04 6.06L12 16.97 6.56 19.5l1.04-6.06-4.4-4.29 6.08-.88L12 2.75z'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23ff2d95' stroke='%23000000' stroke-width='1.6' d='M12 2.75l2.72 5.51 6.08.88-4.4 4.29 1.04 6.06L12 16.97 6.56 19.5l1.04-6.06-4.4-4.29 6.08-.88L12 2.75z'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23ff2d95' stroke='%23000000' stroke-width='1.6' d='M12 2.75l2.72 5.51 6.08.88-4.4 4.29 1.04 6.06L12 16.97 6.56 19.5l1.04-6.06-4.4-4.29 6.08-.88L12 2.75z'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23ff2d95' stroke='%23000000' stroke-width='1.6' d='M12 2.75l2.72 5.51 6.08.88-4.4 4.29 1.04 6.06L12 16.97 6.56 19.5l1.04-6.06-4.4-4.29 6.08-.88L12 2.75z'/></svg>");
+  background-size:
+    16px 16px,
+    20px 20px,
+    14px 14px,
+    18px 18px;
+  background-position:
+    12% 18%,
+    36% 30%,
+    62% 22%,
+    84% 34%;
+  filter: drop-shadow(0 0 2px #000000);
+}
+@keyframes sparkleFall {
+  0% {
+    transform: translateY(-35%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(35%);
+    opacity: 0;
+  }
+}
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
+/* Sparkle Overlay Animation */
+.sparkle-container {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 15;
+}
+.sparkle-dot {
+  position: absolute;
+  top: 0;
+  left: var(--left, 0);
+  width: 8px;
+  height: 8px;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23ff2d95' stroke='%23000000' stroke-width='1.6' d='M12 2.75l2.72 5.51 6.08.88-4.4 4.29 1.04 6.06L12 16.97 6.56 19.5l1.04-6.06-4.4-4.29 6.08-.88L12 2.75z'/></svg>");
+  background-size: contain;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 0 2px #000000);
+  opacity: 0;
+  animation: sparkleDotFall var(--duration, 8s) linear infinite;
+  animation-delay: var(--delay, 0s);
+}
+@keyframes sparkleDotFall {
+  0% {
+    top: -10%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: 110%;
+    opacity: 0;
+  }
+}
 @custom-variant dark (&:is(.dark *));
 
 :root {

@@ -1,7 +1,10 @@
 "use client"
 
+import React from "react";
+
 import { Producto } from "@/lib/types"
 import { buildImageUrl } from "@/lib/api"
+import { StarIcon } from "./ui/star"
 
 type HeroHeaderProps = {
   destacados: Producto[]
@@ -22,19 +25,23 @@ export function HeroHeader({
 
   return (
     <header className="relative overflow-hidden bg-secondary text-center">
-      <SparkleOverlay />
-
+      {/* Star animation overlay for the entire hero section */}
+      <div className="absolute inset-0 w-full h-full pointer-events-none z-30">
+        <SparkleOverlay />
+      </div>
       <div className="relative z-10 mx-auto max-w-6xl px-6 py-5">
         {/* Navigation */}
         <nav className="flex flex-col items-center gap-5 text-center w-full">
           <div className="flex flex-col items-center gap-2">
-            <div className="logo-float flex h-28 w-28 items-center justify-center rounded-full bg-accent shadow-sm sm:h-36 sm:w-36 overflow-hidden">
-              <img
-                src="/bbtito_logo.png"
-                alt="BBTito Logo"
-                className="h-full w-full object-contain"
-                loading="lazy"
-              />
+            <div className="relative flex flex-col items-center">
+              <div className="logo-float flex h-28 w-28 items-center justify-center rounded-full bg-accent shadow-sm sm:h-36 sm:w-36 overflow-hidden z-20">
+                <img
+                  src="/bbtito_logo.png"
+                  alt="BBTito Logo"
+                  className="h-full w-full object-contain"
+                  loading="lazy"
+                />
+              </div>
             </div>
             <p className="font-display text-3xl font-bold tracking-wide text-foreground sm:text-4xl">
               BBTito
@@ -114,34 +121,44 @@ export function HeroHeader({
   )
 }
 
-function SparkleOverlay() {
-  const dots = Array.from({ length: 12 }, (_, i) => ({
+export function SparkleOverlay() {
+  const stars = Array.from({ length: 12 }, (_, i) => ({
     left: `${6 + i * 8}%`,
-    delay: `${-i * 1.2}s`,
-    duration: `${7 + (i % 3) * 2}s`,
-    size: 3 + (i % 3),
-  }))
+    delay: i * 0.8,
+    duration: 6 + (i % 3) * 2,
+    size: 18 + (i % 3) * 6,
+  }));
+
+  const [tick, setTick] = React.useState(0);
+  React.useEffect(() => {
+    const interval = setInterval(() => setTick(t => t + 1), 50);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="sparkle-container">
-      {dots.map((d, i) => (
-        <span
-          key={i}
-          className="sparkle-dot"
-          style={
-            {
-              "--left": d.left,
-              "--delay": d.delay,
-              "--duration": d.duration,
-              left: d.left,
-              animationDelay: d.delay,
-              animationDuration: d.duration,
-              width: d.size,
-              height: d.size,
-            } as React.CSSProperties
-          }
-        />
-      ))}
+      {stars.map((star, i) => {
+        // Calculate progress for each star
+        const progress = ((tick / (star.duration * 20)) + star.delay / star.duration) % 1;
+        const top = `${progress * 100}%`;
+        return (
+          <span
+            key={i}
+            style={{
+              position: "absolute",
+              left: star.left,
+              top,
+              width: star.size,
+              height: star.size,
+              pointerEvents: "none",
+              opacity: progress > 0.05 && progress < 0.95 ? 1 : 0,
+              transition: "opacity 0.2s",
+            }}
+          >
+            <StarIcon size={star.size} color="#ff2d95" />
+          </span>
+        );
+      })}
     </div>
-  )
+  );
 }

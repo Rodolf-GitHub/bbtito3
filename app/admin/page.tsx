@@ -16,8 +16,8 @@ export default function AdminDashboardPage() {
   const [busqueda, setBusqueda] = useState("")
   const [offset, setOffset] = useState(0)
   const endpoint = busqueda
-    ? `${API_ENDPOINTS.listarTodos}?busqueda=${encodeURIComponent(busqueda)}&limit=100&offset=${offset}`
-    : `${API_ENDPOINTS.listarTodos}?limit=100&offset=${offset}`
+    ? `${API_ENDPOINTS.listarTodos}?busqueda=${encodeURIComponent(busqueda)}&limit=50&offset=${offset}`
+    : `${API_ENDPOINTS.listarTodos}?limit=50&offset=${offset}`
   const {
     data,
     isLoading,
