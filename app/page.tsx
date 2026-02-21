@@ -39,7 +39,10 @@ type FilterKey = (typeof FILTERS)[number]["key"]
 
 const fetcher = (url: string) => fetchProductos(url)
 
+import { usePwaInstall } from "@/hooks/use-pwa-install"
+
 export default function HomePage() {
+  const { canInstall, install } = usePwaInstall();
   const [activeFilter, setActiveFilter] = useState<FilterKey>("todos")
   const [searchQuery, setSearchQuery] = useState("")
   const [offset, setOffset] = useState(0)
@@ -102,6 +105,21 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground text-center">
+      {canInstall && (
+        <section className="mb-6">
+          <div className="mx-auto flex max-w-5xl flex-col items-center gap-3 rounded-lg border border-border bg-white px-4 py-3 text-center shadow-sm sm:flex-row sm:justify-between sm:text-left">
+            <p className="text-sm font-medium text-foreground">
+              ¡Instala la aplicación para una mejor experiencia!
+            </p>
+            <button
+              onClick={install}
+              className="inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-primary px-4 py-2 text-xs font-semibold text-white transition-all hover:bg-primary/80"
+            >
+              Instalar aplicación
+            </button>
+          </div>
+        </section>
+      )}
       <HeroHeader
         destacados={productos}
         totalMujer={mujerData?.count ?? 0}
