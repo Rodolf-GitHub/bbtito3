@@ -8,24 +8,29 @@ import { ProductTable } from "@/components/admin/product-table"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { PlusCircle, Search, Package, Tag, Loader2 } from "lucide-react"
+import { Pagination, PaginationContent, PaginationItem, PaginationLink } from "@/components/ui/pagination"
 
 const fetcher = (url: string) => fetchProductos(url)
 
 export default function AdminDashboardPage() {
   const [busqueda, setBusqueda] = useState("")
+  const [offset, setOffset] = useState(0)
+  const endpoint = busqueda
+    ? `${API_ENDPOINTS.listarTodos}?busqueda=${encodeURIComponent(busqueda)}&limit=100&offset=${offset}`
+    : `${API_ENDPOINTS.listarTodos}?limit=100&offset=${offset}`
   const {
     data,
     isLoading,
     error,
     mutate,
-  } = useSWR<PagedProductos>(API_ENDPOINTS.listarTodos, fetcher)
+  } = useSWR<PagedProductos>(endpoint, fetcher)
 
   const allProductos = data?.items ?? []
-  const filtered = busqueda
-    ? allProductos.filter((p) =>
-        p.nombre.toLowerCase().includes(busqueda.toLowerCase())
-      )
-    : allProductos
+    const total = data?.count ?? 0
+    const page = Math.floor(offset / 100) + 1
+    const totalPages = Math.max(1, Math.ceil(total / 100))
+    const showing = allProductos.length
+  // No local filtering, backend handles it
 
   const totalOfertas = allProductos.filter((p) => p.en_oferta).length
   const totalMujer = allProductos.filter((p) => p.para_mujer).length
@@ -102,10 +107,33 @@ export default function AdminDashboardPage() {
           </Button>
         </div>
       ) : (
-        <ProductTable
-          productos={filtered}
-          onDeleted={() => mutate()}
-        />
+        <>
+          <ProductTable
+            productos={allProductos}
+            onDeleted={() => mutate()}
+          />
+          <div className="flex flex-col items-center gap-4 mt-6">
+            <span className="text-sm font-medium text-primary bg-card rounded-full px-4 py-2 shadow-sm">
+              Mostrando {showing} elementos | Página {page} de {totalPages}
+            </span>
+            <div className="flex gap-3 mt-2">
+              <button
+                className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors shadow-sm ${offset === 0 ? 'bg-muted text-muted-foreground cursor-not-allowed' : 'bg-primary text-primary-foreground hover:bg-primary/80'}`}
+                disabled={offset === 0}
+                onClick={() => setOffset(Math.max(0, offset - 100))}
+              >
+                Anterior
+              </button>
+              <button
+                className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors shadow-sm ${allProductos.length < 100 ? 'bg-muted text-muted-foreground cursor-not-allowed' : 'bg-primary text-primary-foreground hover:bg-primary/80'}`}
+                disabled={allProductos.length < 100}
+                onClick={() => setOffset(offset + 100)}
+              >
+                Siguiente
+              </button>
+            </div>
+          </div>
+        </>
       )}
     </div>
   )

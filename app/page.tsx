@@ -7,6 +7,7 @@ import type { PagedProductos, Producto } from "@/lib/types"
 import { HeroHeader } from "@/components/hero-header"
 import { ProductCard } from "@/components/product-card"
 import { ContactSection } from "@/components/contact-section"
+import { Pagination, PaginationContent, PaginationItem, PaginationLink } from "@/components/ui/pagination"
 import { SiteFooter } from "@/components/site-footer"
 import { ImageLightbox } from "@/components/image-lightbox"
 import {
@@ -41,14 +42,25 @@ const fetcher = (url: string) => fetchProductos(url)
 export default function HomePage() {
   const [activeFilter, setActiveFilter] = useState<FilterKey>("todos")
   const [searchQuery, setSearchQuery] = useState("")
+  const [offset, setOffset] = useState(0)
+
+  // Reset offset when filter or search changes
+  const handleFilterChange = (filter: FilterKey) => {
+    setActiveFilter(filter)
+    setOffset(0)
+  }
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value)
+    setOffset(0)
+  }
   const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null)
   const [whatsappOpen, setWhatsappOpen] = useState(false)
   const [productoConsulta, setProductoConsulta] = useState<Producto | undefined>()
 
   const currentFilter = FILTERS.find((f) => f.key === activeFilter)!
   const endpoint = searchQuery
-    ? `${currentFilter.endpoint}?busqueda=${encodeURIComponent(searchQuery)}`
-    : currentFilter.endpoint
+    ? `${currentFilter.endpoint}?busqueda=${encodeURIComponent(searchQuery)}&limit=100&offset=${offset}`
+    : `${currentFilter.endpoint}?limit=100&offset=${offset}`
 
   const { data, isLoading, error } = useSWR<PagedProductos>(endpoint, fetcher)
 
@@ -57,6 +69,10 @@ export default function HomePage() {
   const { data: hombreData } = useSWR<PagedProductos>(API_ENDPOINTS.listarHombre, fetcher)
 
   const productos = data?.items ?? []
+  const total = data?.count ?? 0
+  const page = Math.floor(offset / 100) + 1
+  const totalPages = Math.max(1, Math.ceil(total / 100))
+  const showing = productos.length
 
   const openLightbox = useCallback((src: string, alt: string) => {
     setLightbox({ src, alt })
@@ -122,7 +138,7 @@ export default function HomePage() {
               type="text"
               placeholder="Buscar por nombre..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={handleSearchChange}
               className="w-full rounded-xl border border-border bg-background px-4 py-3 pl-11 text-sm text-foreground placeholder:text-muted-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
             />
           </div>
@@ -136,7 +152,7 @@ export default function HomePage() {
                 <button
                   key={filter.key}
                   type="button"
-                  onClick={() => setActiveFilter(filter.key)}
+                  onClick={() => handleFilterChange(filter.key)}
                   className={`flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-medium transition ${
                     isActive
                       ? "bg-primary text-primary-foreground shadow-sm"
@@ -179,16 +195,39 @@ export default function HomePage() {
 
           {/* Products Grid */}
           {!isLoading && !error && productos.length > 0 && (
-            <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
-              {productos.map((producto) => (
-                <ProductCard
-                  key={producto.id}
-                  producto={producto}
-                  onImageClick={openLightbox}
-                  onConsultar={handleConsultar}
-                />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
+                {productos.map((producto) => (
+                  <ProductCard
+                    key={producto.id}
+                    producto={producto}
+                    onImageClick={openLightbox}
+                    onConsultar={handleConsultar}
+                  />
+                ))}
+              </div>
+              <div className="flex flex-col items-center gap-4 mt-6">
+                <span className="text-sm font-medium text-primary bg-card rounded-full px-4 py-2 shadow-sm">
+                  Mostrando {showing} elementos | Página {page} de {totalPages}
+                </span>
+                <div className="flex gap-3 mt-2">
+                  <button
+                    className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors shadow-sm ${offset === 0 ? 'bg-muted text-muted-foreground cursor-not-allowed' : 'bg-primary text-primary-foreground hover:bg-primary/80'}`}
+                    disabled={offset === 0}
+                    onClick={() => setOffset(Math.max(0, offset - 100))}
+                  >
+                    Anterior
+                  </button>
+                  <button
+                    className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors shadow-sm ${productos.length < 100 ? 'bg-muted text-muted-foreground cursor-not-allowed' : 'bg-primary text-primary-foreground hover:bg-primary/80'}`}
+                    disabled={productos.length < 100}
+                    onClick={() => setOffset(offset + 100)}
+                  >
+                    Siguiente
+                  </button>
+                </div>
+              </div>
+            </>
           )}
         </div>
       </section>

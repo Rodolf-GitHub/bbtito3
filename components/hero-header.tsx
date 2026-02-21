@@ -21,12 +21,12 @@ export function HeroHeader({
   const heroProducts = destacados.slice(0, 3)
 
   return (
-    <header className="relative overflow-hidden bg-secondary">
+    <header className="relative overflow-hidden bg-secondary text-center">
       <SparkleOverlay />
 
       <div className="relative z-10 mx-auto max-w-6xl px-6 py-5">
         {/* Navigation */}
-        <nav className="flex flex-col items-center gap-5 text-center">
+        <nav className="flex flex-col items-center gap-5 text-center w-full">
           <div className="flex flex-col items-center gap-2">
             <div className="logo-float flex h-16 w-16 items-center justify-center rounded-full bg-accent shadow-sm sm:h-20 sm:w-20">
               <span className="font-display text-xl font-bold text-primary sm:text-2xl">
@@ -63,7 +63,7 @@ export function HeroHeader({
         {/* Hero Content */}
         <div className="mt-12 grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:mt-16">
           <div className="flex flex-col gap-5">
-            <p className="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-card/60 px-3.5 py-1.5 text-[11px] uppercase tracking-widest text-muted-foreground backdrop-blur-sm">
+            <p className="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-card/60 px-3.5 py-1.5 text-[11px] uppercase tracking-widest text-muted-foreground backdrop-blur-sm mx-auto">
               Reventa de marcas
               <span className="h-1 w-1 rounded-full bg-primary" />
               Outfits destacados
@@ -77,14 +77,14 @@ export function HeroHeader({
             </p>
             <div className="flex flex-wrap gap-3 pt-1">
               <button
-                className="rounded-full bg-primary px-6 py-3 text-sm font-semibold uppercase tracking-widest text-primary-foreground shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                className="rounded-full bg-primary px-6 py-3 text-sm font-semibold uppercase tracking-widest text-primary-foreground shadow-sm transition hover:-translate-y-0.5 hover:shadow-md mx-auto"
                 type="button"
                 onClick={onWhatsappClick}
               >
                 Consultar por WhatsApp
               </button>
               <a
-                className="rounded-full border border-primary bg-card/60 px-6 py-3 text-sm font-semibold uppercase tracking-widest text-primary transition hover:-translate-y-0.5 hover:bg-card"
+                className="rounded-full border border-primary bg-card/60 px-6 py-3 text-sm font-semibold uppercase tracking-widest text-primary transition hover:-translate-y-0.5 hover:bg-card mx-auto"
                 href="#catalogo"
               >
                 Ver catalogo
@@ -103,57 +103,6 @@ export function HeroHeader({
                 </p>
                 <p>Productos para el</p>
               </div>
-            </div>
-          </div>
-
-          {/* Featured Grid */}
-          <div className="relative">
-            <div className="absolute -right-8 top-6 hidden h-56 w-56 rounded-full bg-accent/40 blur-3xl sm:block" />
-            <div className="relative rounded-3xl border border-border bg-card/70 p-5 shadow-sm backdrop-blur-sm">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-[11px] uppercase tracking-widest text-primary">
-                    Catalogo
-                  </p>
-                  <p className="font-display text-xl text-foreground">
-                    Outfits destacados
-                  </p>
-                </div>
-                <span className="rounded-full bg-foreground px-2.5 py-1 text-[10px] uppercase tracking-widest text-background">
-                  2026
-                </span>
-              </div>
-              <div className="mt-4 grid grid-cols-3 gap-2">
-                {heroProducts.map((producto) => {
-                  const imgSrc = buildImageUrl(producto.imagen)
-                  return (
-                    <article
-                      key={producto.id}
-                      className="aspect-[3/4] overflow-hidden rounded-2xl bg-secondary"
-                    >
-                      {imgSrc ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          className="h-full w-full cursor-zoom-in object-cover transition duration-300 hover:scale-105"
-                          src={imgSrc}
-                          alt={producto.nombre}
-                          loading="lazy"
-                          onClick={() =>
-                            onImageClick(imgSrc, producto.nombre)
-                          }
-                        />
-                      ) : (
-                        <div className="flex h-full w-full items-center justify-center text-xs text-muted-foreground">
-                          {producto.nombre}
-                        </div>
-                      )}
-                    </article>
-                  )
-                })}
-              </div>
-              <p className="mt-4 text-xs text-muted-foreground">
-                Reventa de marcas seleccionadas
-              </p>
             </div>
           </div>
         </div>
