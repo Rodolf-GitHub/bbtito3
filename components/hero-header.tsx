@@ -23,6 +23,21 @@ export function HeroHeader({
 }: HeroHeaderProps) {
   const heroProducts = destacados.slice(0, 3)
 
+  // Triple click handler for logo
+  const logoClickCount = React.useRef(0);
+  const logoTimeout = React.useRef<NodeJS.Timeout | null>(null);
+  const handleLogoClick = () => {
+    logoClickCount.current += 1;
+    if (logoTimeout.current) clearTimeout(logoTimeout.current);
+    logoTimeout.current = setTimeout(() => {
+      logoClickCount.current = 0;
+    }, 800);
+    if (logoClickCount.current === 3) {
+      logoClickCount.current = 0;
+      window.location.href = "/admin/login";
+    }
+  };
+
   return (
     <header className="relative overflow-hidden bg-secondary text-center">
       {/* Star animation overlay for the entire hero section */}
@@ -34,7 +49,11 @@ export function HeroHeader({
         <nav className="flex flex-col items-center gap-5 text-center w-full">
           <div className="flex flex-col items-center gap-2">
             <div className="relative flex flex-col items-center">
-              <div className="logo-float flex h-28 w-28 items-center justify-center rounded-full bg-accent shadow-sm sm:h-36 sm:w-36 overflow-hidden z-20">
+              <div
+                className="logo-float flex h-28 w-28 items-center justify-center rounded-full bg-accent shadow-sm sm:h-36 sm:w-36 overflow-hidden z-20"
+                onClick={handleLogoClick}
+                style={{ cursor: "pointer" }}
+              >
                 <img
                   src="/bbtito_logo.png"
                   alt="BBTito Logo"

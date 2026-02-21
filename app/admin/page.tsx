@@ -27,8 +27,9 @@ export default function AdminDashboardPage() {
 
   const allProductos = data?.items ?? []
     const total = data?.count ?? 0
-    const page = Math.floor(offset / 100) + 1
-    const totalPages = Math.max(1, Math.ceil(total / 100))
+    const PAGE_SIZE = 50;
+    const page = Math.floor(offset / PAGE_SIZE) + 1;
+    const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
     const showing = allProductos.length
   // No local filtering, backend handles it
 
@@ -120,14 +121,14 @@ export default function AdminDashboardPage() {
               <button
                 className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors shadow-sm ${offset === 0 ? 'bg-muted text-muted-foreground cursor-not-allowed' : 'bg-primary text-primary-foreground hover:bg-primary/80'}`}
                 disabled={offset === 0}
-                onClick={() => setOffset(Math.max(0, offset - 100))}
+                onClick={() => setOffset(Math.max(0, offset - PAGE_SIZE))}
               >
                 Anterior
               </button>
               <button
-                className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors shadow-sm ${allProductos.length < 100 ? 'bg-muted text-muted-foreground cursor-not-allowed' : 'bg-primary text-primary-foreground hover:bg-primary/80'}`}
-                disabled={allProductos.length < 100}
-                onClick={() => setOffset(offset + 100)}
+                className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors shadow-sm ${page >= totalPages ? 'bg-muted text-muted-foreground cursor-not-allowed' : 'bg-primary text-primary-foreground hover:bg-primary/80'}`}
+                disabled={page >= totalPages}
+                onClick={() => setOffset(offset + PAGE_SIZE)}
               >
                 Siguiente
               </button>
